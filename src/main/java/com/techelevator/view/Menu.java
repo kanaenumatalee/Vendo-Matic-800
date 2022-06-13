@@ -7,16 +7,12 @@ import java.util.Scanner;
 
 public class Menu {
 
-	private PrintWriter out;
-	private Scanner in;
+	public static PrintWriter out;
+	public static Scanner in;
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
-	}
-
-	public Menu() {
-
 	}
 
 	public Object getChoiceFromOptions(Object[] options) {
@@ -51,6 +47,7 @@ public class Menu {
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);
 		}
+
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}

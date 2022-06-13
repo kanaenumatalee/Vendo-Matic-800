@@ -1,10 +1,10 @@
 package com.techelevator;
 
+import com.techelevator.view.Item;
 import com.techelevator.view.Menu;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+
 
 public class VendingMachineCLI {
 
@@ -21,23 +21,19 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
+	Item item = new Item();
+
+
 	public void run() throws FileNotFoundException {
-		int quantity = 5;
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
-				Scanner sc = new Scanner(new File(
-						"/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv"));
-				while(sc.hasNextLine()) {
-					String line = sc.nextLine();
-					System.out.println(line + "|" + quantity);
-				}
+				item.displayItems();
 
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
-				Purchase purchase = new Purchase();
+				Purchase purchase = new Purchase(menu);
 				purchase.run();
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT));
@@ -49,5 +45,6 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
+
 	}
 }
