@@ -30,12 +30,16 @@ public class Purchase {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public void addToBalance(int dollar) {
+    public void addToBalance(double dollar) {
         this.balance += dollar;
+    }
+
+    public void reduceBalance(double item) {
+        this.balance -= item;
     }
 
     public void run() throws FileNotFoundException {
@@ -60,22 +64,29 @@ public class Purchase {
         item.displayItems();
         out.print("Please select an item: ");
         String order = in.nextLine();
-        if (!item.getItemQuantityMap().containsKey(order)) {
+        if (!item.getItemQuantity().containsKey(order)) {            // product does not exist
             out.println("Sorry, the item does not exist.");
         }
-        if (item.getItemQuantityMap().get(order) == 0) {
+        if (item.getItemQuantity().get(order) == 0) {                // product qty == 0
             out.println("Sorry, the item is SOLD OUT.");
         }
-        if (item.getItemQuantityMap().containsKey(order)) {
+        if (item.getItemQuantity().containsKey(order)) {            // finds product
             if (order.contains("A")) {
                 out.println("Crunch Crunch, Yum!");
-                item.getItemQuantityMap().put(order, item.getItemQuantityMap().get(order)-1);
+                item.itemQuantityMap.put(order, item.itemQuantityMap.get(order)-1); //reduce quantity
+                if(item.itemInfo().containsKey(order)){
+                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+                }
+                out.println(getBalance());
             } else if (order.contains("B")) {
                 out.println("Munch Munch, Yum!");
+                item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
             } else if (order.contains("C")) {
                 out.println("Glug Glug, Yum!");
+                item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
             } else if (order.contains("D")) {
                 out.println("Chew Chew, Yum!");
+                item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
             }
         }
     }
