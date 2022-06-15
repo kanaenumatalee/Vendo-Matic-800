@@ -27,6 +27,7 @@ public class Purchase {
     }
 
     public void run() throws FileNotFoundException {
+
         while (true) {
             choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTION);
             if (choice.equals(PURCHASE_OPTION_FEED_MONEY)) {
@@ -53,19 +54,37 @@ public class Purchase {
         this.balance -= item;
     }
 
-    public boolean haveEnoughBalance(double item) {
-        if(getBalance() <= item) {
+    public boolean haveEnoughBalance(String item) {
+        if(getBalance() <= Double.parseDouble(item)) {
             return false;
         }
         return true;
     }
 
     public void feedMoney() {
-        out.print("Please enter whole dollar amounts: ");
+        out.print("Please insert $1, $2, $5, or $10: ");
         int dollar = Integer.parseInt(in.nextLine());
-        addToBalance(dollar);
-        System.out.println("Current money provided: $" + df.format(getBalance()));
-        Log.log("FEED MONEY $" + dollar + " $" +  df.format(getBalance()));
+        if (dollar == 1 || dollar == 2 || dollar == 5 || dollar == 10) {
+            addToBalance(dollar);
+            out.println("Current money provided: $" + df.format(getBalance()));
+            Log.log("FEED MONEY $" + dollar + " $" + df.format(getBalance()));
+        } else {
+            out.println("Please insert $1, $2, $5, or $10.");
+        }
+    }
+
+    private void getTypeSound(String Type) {
+        switch (Type) {
+            case "Chip": out.println("Dispensing...\nCrunch Crunch, Yum!"); break;
+            case "Candy": out.println("Dispensing...\nMunch Munch, Yum!"); break;
+            case "Drink": out.println("Dispensing...\nGlug Glug, Yum!"); break;
+            case "Gum": out.println("Dispensing...\nChew Chew, Yum!"); break;
+            default: out.println(""); break;
+        }
+    }
+
+    private int reduceQuantity(String slot, int qty) {
+        return item.itemQuantityMap.put(slot, qty-1);
     }
 
     public void selectItem() throws FileNotFoundException {
@@ -73,82 +92,31 @@ public class Purchase {
         out.print("Please select an item: ");
         String orderInput = in.nextLine();
         String order = orderInput.toUpperCase();
-        if (!item.getItemQuantity().containsKey(order)) {            // product does not exist
+        boolean hasOrder = item.getItemQuantity().containsKey(order);
+        int qty = item.getItemQuantity().get(order);
+        String[] itemIndex = item.itemInfo().get(order);
+
+        if (!hasOrder) {            // product does not exist
             out.println("Sorry, the item does not exist. Please enter a valid slot location.");
-        }
-        if (item.getItemQuantity().get(order) == 0) {                // product qty == 0
+        } else if (qty <= 0) {                // product qty == 0
             out.println("Sorry, the item is SOLD OUT.");
-        }
-        if (item.getItemQuantity().containsKey(order)) {            // finds product
-            if (order.contains("A")) {
-                if(!haveEnoughBalance(Double.parseDouble(item.itemInfo().get(order)[2]))){
-                    out.println("You current balance $" + df.format(getBalance())
-                              + " is not enough to buy this item. "
-                              + "Please add more money or select another item.");
-                } else {
-                    out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
-                              + "! That will be $" + item.itemInfo().get(order)[2] + "!");
-                    out.println("Dispensing...");
-                    out.println("Crunch Crunch, Yum!");
-                    item.getItemQuantity().put(order, item.itemQuantityMap.get(order)-1); //reduce quantity
-                    if(item.itemInfo().containsKey(order)){
-                        reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2])); //reduce balance
-                    }
-                    out.println("Money remaining: $" + df.format(getBalance()));
-                    item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                    Log.log(item.itemInfo().get(order)[1]
-                            + " $" + item.itemInfo().get(order)[2]
-                            + " $" +  df.format(getBalance()));
-                }
-            } else if (order.contains("B")) {
-                out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
-                          + "! That will be $" + item.itemInfo().get(order)[2] + "!");
-                out.println("Dispensing...");
-                out.println("That will be $" + item.itemInfo().get(order)[2] + "!");
-                out.println("Dispensing...");
-                out.println("Munch Munch, Yum!");
-                item.getItemQuantity().put(order, item.itemQuantityMap.get(order)-1);
-                if(item.itemInfo().containsKey(order)){
-                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
-                }
-                out.println("Money remaining: $" + df.format(getBalance()));
-                item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1]
-                        + " $" + item.itemInfo().get(order)[2]
-                        + " $" + df.format(getBalance()));
-            } else if (order.contains("C")) {
-                out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
-                          + "! That will be $" + item.itemInfo().get(order)[2] + "!");
-                out.println("Dispensing...");
-                out.println("Glug Glug, Yum!");
-                item.getItemQuantity().put(order, item.itemQuantityMap.get(order)-1);
-                if(item.itemInfo().containsKey(order)){
-                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
-                }
-                out.println("Money remaining: $" + df.format(getBalance()));
-                item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1]
-                        + " $" + item.itemInfo().get(order)[2]
-                        + " $" +  df.format(getBalance()));
-            } else if (order.contains("D")) {
-                out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
-                          + "! That will be $" + item.itemInfo().get(order)[2] + "!");
-                out.println("Dispensing...");
-                out.println("Chew Chew, Yum!");
-                out.println(item.itemQuantityMap.get(order));
-                item.getItemQuantity().put(order, item.itemQuantityMap.get(order)-1);
-                if(item.itemInfo().containsKey(order)){
-                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
-                }
-                out.println("Money remaining: $" + df.format(getBalance()));
-                item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1]
-                        + " $" + item.itemInfo().get(order)[2]
-                        + " $" +  df.format(getBalance()));
-            }
+        } else if (!haveEnoughBalance(itemIndex[2])) {
+            out.println("You current balance $" + df.format(getBalance())
+                    + " is not enough to buy this item. "
+                    + "Please add more money or select another item.");
+        } else if (hasOrder) {            // finds product
+            out.println("Thank you for ordering " + itemIndex[1]
+                    + "! That will be $" + itemIndex[2] + "!");
+            reduceQuantity(order, qty);
+            getTypeSound(itemIndex[3]);
+            reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+            out.println("Money remaining: $" + df.format(getBalance()));
+            //item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
+            Log.log(item.itemInfo().get(order)[1]
+                    + " $" + item.itemInfo().get(order)[2]
+                    + " $" +  df.format(getBalance()));
         }
     }
-
 
     public void returnChange(double balance) {
         double newBalance = 0;
@@ -156,9 +124,6 @@ public class Purchase {
         double dime = 10;
         double nickle = 5;
     }
-
-
-
 
 
 }

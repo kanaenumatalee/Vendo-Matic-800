@@ -8,7 +8,7 @@ public class Item {
     public int itemQuantity = 5;
     public int salesCount = 0;
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
-    Map<String, String[]> itemInfo = new HashMap<>();                // [0-Slot, 1-Item, 2-Price,3-Type]
+    Map<String, String[]> itemInfo = new HashMap<>();                // <slot, [0-Slot, 1-Item, 2-Price,3-Type]>
     public Map<String, Integer> itemQuantityMap = new HashMap<>();   // [Key: Slot, Value: Quantity]
     public Map<String, Integer> itemSalesCountMap = new HashMap<>();
     Scanner sc = null;
@@ -23,21 +23,37 @@ public class Item {
         return itemInfo;
     }
 
-    public void displayItems() throws FileNotFoundException {
-        Scanner sc = new Scanner(new File(csvLocation));
-        while(sc.hasNextLine()) {
-            String line = sc.nextLine();
-            String[] lineArray = line.split("\\|");  // [A1, Potato Crisps, 3.05, Chip]
+    private void checkItemSetup() throws FileNotFoundException {
+        if (itemInfo().isEmpty() || itemInfo().equals(null)) {
+            itemInfo();
+        } else if (itemQuantityMap.isEmpty() || itemQuantityMap.equals(null)) {
+            getItemQuantity();
+        }
+    }
 
-            for (int i = 0; i < lineArray.length; i++) {
-                if (i == 2) {
-                    System.out.print("$" + lineArray[2] + " | ");
-                } else if (i == 3) {
-                    System.out.println(lineArray[i] + " | Quantity: " + itemQuantityMap.get(lineArray[0]));
-                } else {
-                    System.out.print(lineArray[i] + " | ");
-                }
+    public void displayItems() throws FileNotFoundException {
+        checkItemSetup();
+        try (Scanner scanSlot = new Scanner(new File(csvLocation))) {
+            System.out.println("SLOT | ITEM | PRICE | TYPE | QTY");
+            while (scanSlot.hasNextLine()) {
+                String line = scanSlot.nextLine();   // A1|Potato Crisps|3.05|Chip
+                int delimeter = line.indexOf("|");// | = 2
+                String slot = line.substring(0, delimeter); // A1, A2, A3...
+                String item = itemInfo.get(slot)[1]; // Potato Crisps
+                String price = itemInfo.get(slot)[2]; // 3.05
+                String type = itemInfo.get(slot)[3]; // Chip
+                int qty = itemQuantityMap.get(slot); // 5
+
+                System.out.println(
+                          slot + " | "
+                        + item + " | $"
+                        + price + " | "
+                        + type + " | "
+                        + qty
+                );
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("File Not Found");
         }
     }
 
