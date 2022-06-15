@@ -9,8 +9,8 @@ public class Item {
     public int itemQuantity = 5;
     public int salesCount = 0;
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
-    Map<String, String[]> itemInfo = new HashMap<>();
-    public Map<String, Integer> itemQuantityMap = new HashMap<>();
+    Map<String, String[]> itemInfo = new HashMap<>();              // [0-Slot, 1-Item, 2-Price,3-Type]
+    public Map<String, Integer> itemQuantityMap = new HashMap<>(); // [Key: Slot, Value: Quantity]
     public Map<String, Integer> itemSalesCountMap = new HashMap<>();
     Scanner sc = null;
 
@@ -18,7 +18,7 @@ public class Item {
         sc = new Scanner(new File(csvLocation));
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
-            String[] lineArray = line.split("\\|");  // [A1, Potato Crisps, 3.05, Chip]
+            String[] lineArray = line.split("\\|");   // [A1, Potato Crisps, 3.05, Chip]
             itemInfo.put(lineArray[0], lineArray);
         }
         return itemInfo;
@@ -34,7 +34,7 @@ public class Item {
                 if (i == 2) {
                     System.out.print("$" + lineArray[2] + " | ");
                 } else if (i == 3) {
-                    System.out.println(lineArray[i] + " | Quantity: " + itemQuantity);
+                    System.out.println(lineArray[i] + " | Quantity: " + itemQuantityMap.get(lineArray[0]));
                 } else {
                     System.out.print(lineArray[i] + " | ");
                 }
@@ -47,7 +47,7 @@ public class Item {
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] lineArray = line.split("\\|");  // [A1, Potato Crisps, 3.05, Chip]
-            itemQuantityMap.put(lineArray[0], itemQuantity);
+            itemQuantityMap.put(lineArray[0], itemQuantity); // <A1, 5><A2, 5>...
         }
         return itemQuantityMap;
     }

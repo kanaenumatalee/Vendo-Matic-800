@@ -13,7 +13,7 @@ public class Log {
     public static void log(String message) {
         try {
             File file = new File("/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/Log" +
-                    LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + "purchase.log");
+                    LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + "log.txt");
             if (writer == null) {
                 writer = new PrintWriter(new FileOutputStream(file));
             }
