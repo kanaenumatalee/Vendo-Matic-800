@@ -1,7 +1,6 @@
 package com.techelevator;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Item {
@@ -9,8 +8,8 @@ public class Item {
     public int itemQuantity = 5;
     public int salesCount = 0;
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
-    Map<String, String[]> itemInfo = new HashMap<>();              // [0-Slot, 1-Item, 2-Price,3-Type]
-    public Map<String, Integer> itemQuantityMap = new HashMap<>(); // [Key: Slot, Value: Quantity]
+    Map<String, String[]> itemInfo = new HashMap<>();                // [0-Slot, 1-Item, 2-Price,3-Type]
+    public Map<String, Integer> itemQuantityMap = new HashMap<>();   // [Key: Slot, Value: Quantity]
     public Map<String, Integer> itemSalesCountMap = new HashMap<>();
     Scanner sc = null;
 
@@ -19,7 +18,7 @@ public class Item {
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] lineArray = line.split("\\|");   // [A1, Potato Crisps, 3.05, Chip]
-            itemInfo.put(lineArray[0], lineArray);
+            itemInfo.put(lineArray[0], lineArray); // <A1, [A1, Potato Crisps, 3.05, Chip]>
         }
         return itemInfo;
     }
@@ -61,6 +60,8 @@ public class Item {
         }
         return itemSalesCountMap;
     }
+
+
 /*
     public Map<String, Integer> getItemPriceMap() throws FileNotFoundException {
         Map<String, Integer> itemPriceMap = new HashMap<>();

@@ -4,7 +4,6 @@ import com.techelevator.view.Menu;
 
 import java.io.*;
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 import static com.techelevator.view.Menu.in;
 import static java.lang.System.out;
@@ -84,7 +83,8 @@ public class Purchase {
             if (order.contains("A")) {
                 if(!haveEnoughBalance(Double.parseDouble(item.itemInfo().get(order)[2]))){
                     out.println("You current balance $" + df.format(getBalance())
-                              + " is not enough to buy this item. Please add more money or select another item.");
+                              + " is not enough to buy this item. "
+                              + "Please add more money or select another item.");
                 } else {
                     out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
                               + "! That will be $" + item.itemInfo().get(order)[2] + "!");
@@ -96,7 +96,9 @@ public class Purchase {
                     }
                     out.println("Money remaining: $" + df.format(getBalance()));
                     item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                    Log.log(item.itemInfo().get(order)[1] + " $" + item.itemInfo().get(order)[2] + " $" +  df.format(getBalance()));
+                    Log.log(item.itemInfo().get(order)[1]
+                            + " $" + item.itemInfo().get(order)[2]
+                            + " $" +  df.format(getBalance()));
                 }
             } else if (order.contains("B")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
@@ -111,7 +113,9 @@ public class Purchase {
                 }
                 out.println("Money remaining: $" + df.format(getBalance()));
                 item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1] + " $" + item.itemInfo().get(order)[2] + " $" +  df.format(getBalance()));
+                Log.log(item.itemInfo().get(order)[1]
+                        + " $" + item.itemInfo().get(order)[2]
+                        + " $" + df.format(getBalance()));
             } else if (order.contains("C")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
                           + "! That will be $" + item.itemInfo().get(order)[2] + "!");
@@ -123,7 +127,9 @@ public class Purchase {
                 }
                 out.println("Money remaining: $" + df.format(getBalance()));
                 item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1] + " $" + item.itemInfo().get(order)[2] + " $" +  df.format(getBalance()));
+                Log.log(item.itemInfo().get(order)[1]
+                        + " $" + item.itemInfo().get(order)[2]
+                        + " $" +  df.format(getBalance()));
             } else if (order.contains("D")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1]
                           + "! That will be $" + item.itemInfo().get(order)[2] + "!");
@@ -136,7 +142,9 @@ public class Purchase {
                 }
                 out.println("Money remaining: $" + df.format(getBalance()));
                 item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-                Log.log(item.itemInfo().get(order)[1] + " $" + item.itemInfo().get(order)[2] + " $" +  df.format(getBalance()));
+                Log.log(item.itemInfo().get(order)[1]
+                        + " $" + item.itemInfo().get(order)[2]
+                        + " $" +  df.format(getBalance()));
             }
         }
     }
@@ -148,5 +156,10 @@ public class Purchase {
         double dime = 10;
         double nickle = 5;
     }
+
+
+
+
+
 }
 

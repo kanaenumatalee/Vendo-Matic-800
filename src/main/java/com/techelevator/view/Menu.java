@@ -36,7 +36,8 @@ public class Menu {
 			// eat the exception, an error message will be displayed below since choice will be null
 		}
 		if (choice == null) {
-			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
+			out.println(System.lineSeparator() + "*** " + userInput
+					    + " is not a valid option ***" + System.lineSeparator());
 		}
 		return choice;
 	}

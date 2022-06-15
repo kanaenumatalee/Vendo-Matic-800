@@ -18,13 +18,10 @@ public class VendingMachineCLI {
 														MAIN_MENU_OPTION_SALES_REPORT};
 
 	private Menu menu;
-
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
-
 	Item item = new Item();
-
 
 	public void run() throws FileNotFoundException {
 		while (true) {
@@ -49,5 +46,7 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
+		SalesReport sr = new SalesReport();
+		sr.log(sr.getSalesReport());
 	}
 }
