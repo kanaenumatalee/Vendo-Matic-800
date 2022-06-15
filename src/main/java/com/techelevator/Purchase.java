@@ -1,6 +1,5 @@
 package com.techelevator;
 
-import com.techelevator.view.Item;
 import com.techelevator.view.Menu;
 
 import java.io.*;
@@ -59,7 +58,7 @@ public class Purchase {
         out.print("Please enter whole dollar amounts: ");
         int dollar = Integer.parseInt(in.nextLine());
         addToBalance(dollar);
-        System.out.println("Current money provided: $" + getBalance());
+        System.out.println("Current money provided: $" + df.format(getBalance()));
     }
 
     public boolean haveEnoughBalance(double item) {
@@ -74,7 +73,7 @@ public class Purchase {
         out.print("Please select an item: ");
         String order = in.nextLine();
         if (!item.getItemQuantity().containsKey(order)) {            // product does not exist
-            out.println("Sorry, the item does not exist.");
+            out.println("Sorry, the item does not exist. Please enter a valid slot location.");
         }
         if (item.getItemQuantity().get(order) == 0) {                // product qty == 0
             out.println("Sorry, the item is SOLD OUT.");
@@ -91,7 +90,8 @@ public class Purchase {
                     if(item.itemInfo().containsKey(order)){
                         reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
                     }
-                    out.println("Money remaining: $" + getBalance());
+                    out.println("Money remaining: $" + df.format(getBalance()));
+                    item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
                 }
             } else if (order.contains("B")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
@@ -103,7 +103,8 @@ public class Purchase {
                 if(item.itemInfo().containsKey(order)){
                     reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
                 }
-                out.println("Money remaining: $" + getBalance());
+                out.println("Money remaining: $" + df.format(getBalance()));
+                item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
             } else if (order.contains("C")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
                 out.println("Dispensing...");
@@ -112,7 +113,8 @@ public class Purchase {
                 if(item.itemInfo().containsKey(order)){
                     reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
                 }
-                out.println("Money remaining: $" + getBalance());
+                out.println("Money remaining: $" + df.format(getBalance()));
+                item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
             } else if (order.contains("D")) {
                 out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
                 out.println("Dispensing...");
@@ -121,7 +123,8 @@ public class Purchase {
                 if(item.itemInfo().containsKey(order)){
                     reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
                 }
-                out.println("Money remaining: $" + getBalance());
+                out.println("Money remaining: $" + df.format(getBalance()));
+                item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
             }
         }
     }

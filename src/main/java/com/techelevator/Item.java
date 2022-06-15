@@ -1,4 +1,4 @@
-package com.techelevator.view;
+package com.techelevator;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -6,10 +6,12 @@ import java.util.*;
 
 public class Item {
 
-    public int quantity = 5;
+    public int itemQuantity = 5;
+    public int salesCount = 0;
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
     Map<String, String[]> itemInfo = new HashMap<>();
     public Map<String, Integer> itemQuantityMap = new HashMap<>();
+    public Map<String, Integer> itemSalesCountMap = new HashMap<>();
     Scanner sc = null;
 
     public  Map<String, String[]> itemInfo() throws FileNotFoundException {
@@ -32,7 +34,7 @@ public class Item {
                 if (i == 2) {
                     System.out.print("$" + lineArray[2] + " | ");
                 } else if (i == 3) {
-                    System.out.println(lineArray[i] + " | Quantity: " + quantity);
+                    System.out.println(lineArray[i] + " | Quantity: " + itemQuantity);
                 } else {
                     System.out.print(lineArray[i] + " | ");
                 }
@@ -45,9 +47,19 @@ public class Item {
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] lineArray = line.split("\\|");  // [A1, Potato Crisps, 3.05, Chip]
-            itemQuantityMap.put(lineArray[0], quantity);
+            itemQuantityMap.put(lineArray[0], itemQuantity);
         }
         return itemQuantityMap;
+    }
+
+    public Map<String, Integer> getItemSales() throws FileNotFoundException {
+        Scanner sc = new Scanner(new File(csvLocation));
+        while(sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String[] lineArray = line.split("\\|");  // [A1, Potato Crisps, 3.05, Chip]
+            itemSalesCountMap.put(lineArray[0], salesCount);
+        }
+        return itemSalesCountMap;
     }
 /*
     public Map<String, Integer> getItemPriceMap() throws FileNotFoundException {
