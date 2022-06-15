@@ -37,7 +37,7 @@ public class VendingMachineCLI {
 				purchase.run();
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT));
-
+				System.exit(0);  //0 = clean close
 		}
 	}
 
@@ -45,6 +45,5 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
-
 	}
 }

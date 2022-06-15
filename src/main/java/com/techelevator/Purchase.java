@@ -4,6 +4,7 @@ import com.techelevator.view.Item;
 import com.techelevator.view.Menu;
 
 import java.io.*;
+import java.text.DecimalFormat;
 
 import static com.techelevator.view.Menu.in;
 import static java.lang.System.out;
@@ -25,6 +26,7 @@ public class Purchase {
     }
 
     Item item = new Item();
+    DecimalFormat df = new DecimalFormat("0.00");
 
     public double getBalance() {
         return balance;
@@ -60,6 +62,13 @@ public class Purchase {
         System.out.println("Current money provided: $" + getBalance());
     }
 
+    public boolean haveEnoughBalance(double item) {
+        if(getBalance() <= item) {
+            return false;
+        }
+        return true;
+    }
+
     public void selectItem() throws FileNotFoundException {
         item.displayItems();
         out.print("Please select an item: ");
@@ -72,21 +81,47 @@ public class Purchase {
         }
         if (item.getItemQuantity().containsKey(order)) {            // finds product
             if (order.contains("A")) {
-                out.println("Crunch Crunch, Yum!");
-                item.itemQuantityMap.put(order, item.itemQuantityMap.get(order)-1); //reduce quantity
+                if(!haveEnoughBalance(Double.parseDouble(item.itemInfo().get(order)[2]))){
+                    out.println("You current balance $" + df.format(getBalance()) + " is not enough to buy this item. Please add more money or select another item.");
+                } else {
+                    out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
+                    out.println("Dispensing...");
+                    out.println("Crunch Crunch, Yum!");
+                    item.itemQuantityMap.put(order, item.itemQuantityMap.get(order)-1); //reduce quantity
+                    if(item.itemInfo().containsKey(order)){
+                        reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+                    }
+                    out.println("Money remaining: $" + getBalance());
+                }
+            } else if (order.contains("B")) {
+                out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
+                out.println("Dispensing...");
+                out.println("That will be $" + item.itemInfo().get(order)[2] + "!");
+                out.println("Dispensing...");
+                out.println("Munch Munch, Yum!");
+                item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
                 if(item.itemInfo().containsKey(order)){
                     reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
                 }
-                out.println(getBalance());
-            } else if (order.contains("B")) {
-                out.println("Munch Munch, Yum!");
-                item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
+                out.println("Money remaining: $" + getBalance());
             } else if (order.contains("C")) {
+                out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
+                out.println("Dispensing...");
                 out.println("Glug Glug, Yum!");
                 item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
+                if(item.itemInfo().containsKey(order)){
+                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+                }
+                out.println("Money remaining: $" + getBalance());
             } else if (order.contains("D")) {
+                out.println("Thank you for ordering " + item.itemInfo().get(order)[1] + "! That will be $" + item.itemInfo().get(order)[2] + "!");
+                out.println("Dispensing...");
                 out.println("Chew Chew, Yum!");
                 item.getItemQuantity().put(order, item.getItemQuantity().get(order)-1);
+                if(item.itemInfo().containsKey(order)){
+                    reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+                }
+                out.println("Money remaining: $" + getBalance());
             }
         }
     }
