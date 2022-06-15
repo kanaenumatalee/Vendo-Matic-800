@@ -15,7 +15,7 @@ public class SalesReport {
             File file = new File("/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/SalesReport" +
                     LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + "sales.log");
             if (writer == null) {
-                writer = new PrintWriter(new FileOutputStream(file));
+                writer = new PrintWriter(new FileOutputStream(file, true));
             }
             writer.println();
 

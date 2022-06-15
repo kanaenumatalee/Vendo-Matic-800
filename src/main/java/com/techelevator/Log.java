@@ -12,10 +12,10 @@ public class Log {
     public static PrintWriter writer = null;
     public static void log(String message) {
         try {
-            File file = new File("/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/Log" +
+            File file = new File("/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/Log/" +
                     LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" + "log.txt");
             if (writer == null) {
-                writer = new PrintWriter(new FileOutputStream(file));
+                writer = new PrintWriter(new FileOutputStream(file, true));
             }
             writer.println(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + " " + message);
             writer.flush();
