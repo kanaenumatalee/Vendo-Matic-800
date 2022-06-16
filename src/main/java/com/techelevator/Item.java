@@ -43,13 +43,17 @@ public class Item {
                 String type = itemInfo.get(slot)[3];         // Chip
                 int qty = itemQuantityMap.get(slot);         // 5
                 
-                System.out.println(
+                System.out.print(
                           slot  + " | "
                         + item  + " | $"
                         + price + " | "
                         + type  + " | "
-                        + qty
                 );
+                if(qty == 0) {
+                    System.out.println("SOLD OUT");
+                } else {
+                    System.out.println(qty);
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found");

@@ -34,8 +34,8 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				Purchase purchase = new Purchase(menu, item);
 				purchase.run();
-			} //else if (choice.equals(MAIN_MENU_OPTION_EXIT));
-				//System.exit(0);  //0 = clean close
+			} else if (choice.equals(MAIN_MENU_OPTION_EXIT));
+				System.exit(0);  //0 = clean close
 			} //else if (choice.equals(MAIN_MENU_OPTION_SALES_REPORT)) {
 
 		//}
