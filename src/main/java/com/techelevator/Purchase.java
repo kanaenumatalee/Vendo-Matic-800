@@ -40,7 +40,7 @@ public class Purchase {
                 selectItem();
             } else if (choice.equals(PURCHASE_OPTION_FINISH_TRANSACTION)) {
                 returnChange(getBalance());
-               // toPurchase = false;
+                toPurchase = false;
             }
         }
     }
@@ -117,7 +117,7 @@ public class Purchase {
             getTypeSound(itemIndex[3]);
             reduceBalance(Double.parseDouble(itemIndex[2]));
             out.println("Money remaining: $" + df.format(getBalance()));
-            //item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
+            item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
             Log.log(item.itemInfo.get(order)[1]
                     + " $" +  item.itemInfo.get(order)[2]
                     + " $" +  df.format(getBalance()));
@@ -125,22 +125,26 @@ public class Purchase {
     }
 
     public void returnChange(double balance) {
+        double newBalance = balance;
         int quarter = 0;
         int dime = 0;
         int nickle = 0;
 
-        while(balance > 0.25) {
+        while(newBalance >= 0.25) {
             reduceBalance(0.25);
+            newBalance -= 0.25;
             quarter++;
         }
 
-        while(balance > 0.1) {
+        while(newBalance >= 0.1) {
             reduceBalance(0.1);
+            newBalance -= 0.1;
             dime++;
         }
 
-        while(balance > 0.05) {
+        while(newBalance >= 0.05) {
             reduceBalance(0.05);
+            newBalance -= 0.05;
             nickle++;
         }
 
@@ -148,7 +152,7 @@ public class Purchase {
                     + "\nQuarter: " + quarter
                     + "\nDime: "    + dime
                     + "\nNickle: "  + nickle
-                    + "\nRemaining money: $" + df.format(balance));
+                    + "\nRemaining money: $" + df.format(newBalance));
     }
 
 

@@ -3,8 +3,6 @@ package com.techelevator;
 import com.techelevator.view.Menu;
 
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.Scanner;
 
 
 public class VendingMachineCLI {
@@ -34,18 +32,19 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				Purchase purchase = new Purchase(menu, item);
 				purchase.run();
-			} else if (choice.equals(MAIN_MENU_OPTION_EXIT));
+			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
+				System.out.println("Thank you! Come again!");
 				System.exit(0);  //0 = clean close
-			} //else if (choice.equals(MAIN_MENU_OPTION_SALES_REPORT)) {
-
-		//}
+			} else if (choice.equals(MAIN_MENU_OPTION_SALES_REPORT)) {
+				SalesReport sr = new SalesReport(item);
+				sr.getSalesReport();
+			}
+		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
-		//SalesReport sr = new SalesReport();
-		//sr.log(sr.getSalesReport());
 	}
 }
