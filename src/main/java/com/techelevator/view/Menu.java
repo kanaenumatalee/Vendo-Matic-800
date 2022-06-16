@@ -11,8 +11,8 @@ public class Menu {
 	public static Scanner in;
 
 	public Menu(InputStream input, OutputStream output) {
-		out = new PrintWriter(output);
-		in = new Scanner(input);
+		this.out = new PrintWriter(output);
+		this.in = new Scanner(input);
 	}
 
 	public Object getChoiceFromOptions(Object[] options) {

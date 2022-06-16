@@ -28,7 +28,7 @@ public class SalesReport {
     }
 
     public String getSalesReport() throws FileNotFoundException {
-        for (Map.Entry<String, String[]> itemId : item.itemInfo().entrySet()) {
+        for (Map.Entry<String, String[]> itemId : item.itemInfo.entrySet()) {
             for (Map.Entry<String, Integer> quantity : item.itemSalesCountMap.entrySet()) {
                 out.println(itemId.getValue()[1] + "|" + quantity.getValue());
             }

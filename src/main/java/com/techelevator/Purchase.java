@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import static com.techelevator.view.Menu.in;
 import static java.lang.System.out;
 
+
 public class Purchase {
     private static final String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
@@ -15,21 +16,23 @@ public class Purchase {
     private static final String[] PURCHASE_OPTION = { PURCHASE_OPTION_FEED_MONEY,
                                                       PURCHASE_OPTION_SELECT_PRODUCT,
                                                       PURCHASE_OPTION_FINISH_TRANSACTION};
-    private double balance;
-    private String choice;
-    private Menu menu;
 
-    Item item = new Item();
+
+    private double balance;
+    private Menu menu;
+    private Item item;
+
     DecimalFormat df = new DecimalFormat("0.00");
 
-    public Purchase(Menu menu) {
+    public Purchase(Menu menu, Item item) {
         this.menu = menu;
+        this.item = item;
     }
 
     public void run() throws FileNotFoundException {
 
         while (true) {
-            choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTION);
+            String choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTION);
             if (choice.equals(PURCHASE_OPTION_FEED_MONEY)) {
                 feedMoney();
             } else if (choice.equals(PURCHASE_OPTION_SELECT_PRODUCT)) {
@@ -83,8 +86,8 @@ public class Purchase {
         }
     }
 
-    private int reduceQuantity(String slot, int qty) {
-        return item.itemQuantityMap.put(slot, qty-1);
+    public void reduceQuantity(String slot) {
+        item.itemQuantityMap.put(slot, item.itemQuantityMap.get(slot)-1);
     }
 
     public void selectItem() throws FileNotFoundException {
@@ -92,28 +95,31 @@ public class Purchase {
         out.print("Please select an item: ");
         String orderInput = in.nextLine();
         String order = orderInput.toUpperCase();
-        boolean hasOrder = item.getItemQuantity().containsKey(order);
-        int qty = item.getItemQuantity().get(order);
-        String[] itemIndex = item.itemInfo().get(order);
+        boolean hasOrder = item.itemQuantityMap.containsKey(order);
+        String[] itemIndex = item.itemInfo.get(order);    // 1-Item, 2-Price, 3-Type
 
-        if (!hasOrder) {            // product does not exist
+        if (!hasOrder) {                      // product does not exist
             out.println("Sorry, the item does not exist. Please enter a valid slot location.");
-        } else if (qty <= 0) {                // product qty == 0
+        } else if (item.itemQuantityMap.get(order) <= 0) {                // product qty == 0
             out.println("Sorry, the item is SOLD OUT.");
         } else if (!haveEnoughBalance(itemIndex[2])) {
             out.println("You current balance $" + df.format(getBalance())
                     + " is not enough to buy this item. "
                     + "Please add more money or select another item.");
-        } else if (hasOrder) {            // finds product
+        } else if (hasOrder) {                // finds product
             out.println("Thank you for ordering " + itemIndex[1]
                     + "! That will be $" + itemIndex[2] + "!");
-            reduceQuantity(order, qty);
+
+            out.println("before: " + item.itemQuantityMap.get(order));
+            reduceQuantity(order);
+            out.println("after: " + item.itemQuantityMap.get(order));
+
             getTypeSound(itemIndex[3]);
-            reduceBalance(Double.parseDouble(item.itemInfo().get(order)[2]));
+            reduceBalance(Double.parseDouble(itemIndex[2]));
             out.println("Money remaining: $" + df.format(getBalance()));
             //item.getItemSales().put(order, item.itemSalesCountMap.get(order)+1);
-            Log.log(item.itemInfo().get(order)[1]
-                    + " $" + item.itemInfo().get(order)[2]
+            Log.log(item.itemInfo.get(order)[1]
+                    + " $" +  item.itemInfo.get(order)[2]
                     + " $" +  df.format(getBalance()));
         }
     }
