@@ -62,13 +62,19 @@ public class Purchase extends Menu {
 
     public void feedMoney() {
         System.out.print("Please insert $1, $2, $5, or $10: ");
-        int dollar = Integer.parseInt(in.nextLine());
-        if (dollar == 1 || dollar == 2 || dollar == 5 || dollar == 10) {
-            addToBalance(dollar);
-            System.out.println("Current money provided: $" + df.format(getBalance()));
-            Log.log("FEED MONEY $" + df.format(dollar) + " $" + df.format(getBalance()));
-        } else {
-            System.out.println("Please insert $1, $2, $5, or $10.");
+        String userChoice = in.nextLine();
+        int dollar = 0;
+        try {
+            dollar = Integer.parseInt(userChoice);
+            if (dollar == 1 || dollar == 2 || dollar == 5 || dollar == 10) {
+                addToBalance(dollar);
+                System.out.println("Current money provided: $" + df.format(getBalance()));
+                Log.log("FEED MONEY $" + df.format(dollar) + " $" + df.format(getBalance()));
+            } else {
+                System.out.println("Please insert $1, $2, $5, or $10 only.");
+            }
+        } catch (Exception e) {
+            System.out.println(userChoice + " is not a valid integer.");
         }
     }
 
