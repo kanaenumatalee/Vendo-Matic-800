@@ -4,12 +4,12 @@ import java.io.*;
 import java.util.*;
 
 public class Item {
-
     public int salesCount = 0;
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
+    List<String> itemIdList = new ArrayList<>();                     // [Slot1, Slot2, ...] = Keys
     Map<String, String[]> itemInfo = new HashMap<>();                // <slot, [0-Slot, 1-Item, 2-Price,3-Type]>
-    public Map<String, Integer> itemQuantityMap = new HashMap<>();   // [Key: Slot, Value: Quantity]
-    public Map<String, Integer> itemSalesCountMap = new HashMap<>();
+    Map<String, Integer> itemQuantityMap = new HashMap<>();          // [Key: Slot, Value: Quantity]
+    Map<String, Integer> itemSalesCountMap = new HashMap<>();        // [Key: Slot, Value: Purchase Count]
     Scanner sc = null;
 
     public void itemInfo() throws FileNotFoundException {
@@ -17,8 +17,9 @@ public class Item {
         sc = new Scanner(new File(csvLocation));
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
-            String[] lineArray = line.split("\\|");   // [A1, Potato Crisps, 3.05, Chip]
+            String[] lineArray = line.split("\\|");         // [A1, Potato Crisps, 3.05, Chip]
             itemInfo.put(lineArray[0], lineArray);          // <A1, [A1, Potato Crisps, 3.05, Chip]>
+            itemIdList.add(lineArray[0]);
             itemQuantityMap.put(lineArray[0], quantity);
             itemSalesCountMap.put(lineArray[0], salesCount);
         }

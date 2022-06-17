@@ -1,28 +1,36 @@
 package com.techelevator;
-
 import java.io.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-
-import static java.lang.System.out;
 
 public class SalesReport {
     private Item item;
-    public SalesReport(Item item) {
+    private Purchase purchase;
+
+    public SalesReport(Item item, Purchase purchase) {
         this.item = item;
+        this.purchase = purchase;
     }
+
     public void getSalesReport() {
         try {
-            File file = new File("/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/SalesReport/" +
-                    LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "-sales.txt");
+            String path = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/SalesReport/";
+            DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy hh-mm-ss a");
+            LocalDateTime current = LocalDateTime.now();
+            File file = new File(path + current.format(DTFormat) + "-sales.txt");
             PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
 
+            for(String slot : item.itemIdList) {
+                String name = item.itemInfo.get(slot)[1];
+                int sale = item.itemSalesCountMap.get(slot);
+
+                writer.println(name + "|" + sale);
+            }
+            writer.println("TOTAL SALES: " + purchase.df.format(purchase.returnTotalSales()));
 
             writer.flush();
         } catch (Exception e) {
             System.out.println("File was not found.");
         }
     }
-
 }

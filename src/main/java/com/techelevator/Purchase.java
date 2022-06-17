@@ -1,15 +1,11 @@
 package com.techelevator;
 
 import com.techelevator.view.Menu;
-
 import java.io.*;
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
-import static com.techelevator.view.Menu.in;
-import static java.lang.System.out;
-
-
-public class Purchase {
+public class Purchase extends Menu {
     private static final String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_OPTION_SELECT_PRODUCT = "Select Product";
     private static final String PURCHASE_OPTION_FINISH_TRANSACTION = "Finish Transaction";
@@ -17,15 +13,13 @@ public class Purchase {
                                                       PURCHASE_OPTION_SELECT_PRODUCT,
                                                       PURCHASE_OPTION_FINISH_TRANSACTION};
 
-
     private double balance;
-    private Menu menu;
     private Item item;
 
-    DecimalFormat df = new DecimalFormat("0.00");
+    Scanner in = new Scanner(System.in);
+    public static DecimalFormat df = new DecimalFormat("#,##0.00");
 
-    public Purchase(Menu menu, Item item) {
-        this.menu = menu;
+    public Purchase(Item item) {
         this.item = item;
     }
 
@@ -33,7 +27,7 @@ public class Purchase {
         boolean toPurchase = true;
 
         while (toPurchase) {
-            String choice = (String) menu.getChoiceFromOptions(PURCHASE_OPTION);
+            String choice = (String) getChoiceFromOptions(PURCHASE_OPTION);
             if (choice.equals(PURCHASE_OPTION_FEED_MONEY)) {
                 feedMoney();
             } else if (choice.equals(PURCHASE_OPTION_SELECT_PRODUCT)) {
@@ -53,9 +47,7 @@ public class Purchase {
         this.balance = balance;
     }
 
-    public void addToBalance(double dollar) {
-        this.balance += dollar;
-    }
+    public void addToBalance(double dollar) { this.balance += dollar; }
 
     public void reduceBalance(double item) {
         this.balance -= item;
@@ -69,24 +61,24 @@ public class Purchase {
     }
 
     public void feedMoney() {
-        out.print("Please insert $1, $2, $5, or $10: ");
+        System.out.print("Please insert $1, $2, $5, or $10: ");
         int dollar = Integer.parseInt(in.nextLine());
         if (dollar == 1 || dollar == 2 || dollar == 5 || dollar == 10) {
             addToBalance(dollar);
-            out.println("Current money provided: $" + df.format(getBalance()));
+            System.out.println("Current money provided: $" + df.format(getBalance()));
             Log.log("FEED MONEY $" + df.format(dollar) + " $" + df.format(getBalance()));
         } else {
-            out.println("Please insert $1, $2, $5, or $10.");
+            System.out.println("Please insert $1, $2, $5, or $10.");
         }
     }
 
     private void getTypeSound(String Type) {
         switch (Type) {
-            case "Chip": out.println("Dispensing...\nCrunch Crunch, Yum!"); break;
-            case "Candy": out.println("Dispensing...\nMunch Munch, Yum!"); break;
-            case "Drink": out.println("Dispensing...\nGlug Glug, Yum!"); break;
-            case "Gum": out.println("Dispensing...\nChew Chew, Yum!"); break;
-            default: out.println(""); break;
+            case "Chip": System.out.println("Dispensing...\nCrunch Crunch, Yum!"); break;
+            case "Candy": System.out.println("Dispensing...\nMunch Munch, Yum!"); break;
+            case "Drink": System.out.println("Dispensing...\nGlug Glug, Yum!"); break;
+            case "Gum": System.out.println("Dispensing...\nChew Chew, Yum!"); break;
+            default: System.out.println(""); break;
         }
     }
 
@@ -96,32 +88,42 @@ public class Purchase {
 
     public void selectItem() throws FileNotFoundException {
         item.displayItems();
-        out.print("Please select an item: ");
+        System.out.print("Please select an item: ");
         String orderInput = in.nextLine();
         String order = orderInput.toUpperCase();
         boolean hasOrder = item.itemQuantityMap.containsKey(order);
         String[] itemIndex = item.itemInfo.get(order);              // 1-Item, 2-Price, 3-Type
 
         if (!hasOrder) {                                            // product does not exist
-            out.println("Sorry, the item does not exist. Please enter a valid slot location.");
+            System.out.println("Sorry, the item does not exist. Please enter a valid slot location.");
         } else if (item.itemQuantityMap.get(order) <= 0) {          // product qty == 0
-            out.println("Sorry, the item is SOLD OUT.");
+            System.out.println("Sorry, the item is SOLD OUT.");
         } else if (!haveEnoughBalance(itemIndex[2])) {
-            out.println("You current balance $" + df.format(getBalance())
+            System.out.println("You current balance $" + df.format(getBalance())
                     + " is not enough to buy this item. "
                     + "Please add more money or select another item.");
         } else if (hasOrder) {                                      // finds product
-            out.println("Thank you for ordering " + itemIndex[1]
+            System.out.println("Thank you for ordering " + itemIndex[1]
                     + "! That will be $" + itemIndex[2] + "!");
             reduceQuantity(order);
             getTypeSound(itemIndex[3]);
             reduceBalance(Double.parseDouble(itemIndex[2]));
-            out.println("Money remaining: $" + df.format(getBalance()));
+            System.out.println("Money remaining: $" + df.format(getBalance()));
             item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
             Log.log(item.itemInfo.get(order)[1]
                     + " $" +  item.itemInfo.get(order)[2]
                     + " $" +  df.format(getBalance()));
         }
+    }
+
+    public double returnTotalSales() {
+        double totalSales = 0;
+        for(String slot : item.itemIdList) {
+            Integer qty = item.itemSalesCountMap.get(slot);
+            double price = Double.parseDouble(item.itemInfo.get(slot)[2]);
+            totalSales += qty + price;
+        }
+        return totalSales;
     }
 
     public void returnChange(double balance) {
@@ -148,13 +150,11 @@ public class Purchase {
             nickle++;
         }
 
-        out.println("Dispensing change..."
+        System.out.println("Dispensing change..."
                     + "\nQuarter: " + quarter
                     + "\nDime: "    + dime
                     + "\nNickle: "  + nickle
                     + "\nRemaining money: $" + df.format(newBalance));
     }
-
-
 }
 

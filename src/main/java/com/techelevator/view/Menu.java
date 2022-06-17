@@ -10,6 +10,7 @@ public class Menu {
 	public static PrintWriter out;
 	public static Scanner in;
 
+	public Menu(){}
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
