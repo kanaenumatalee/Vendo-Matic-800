@@ -8,26 +8,26 @@ public class Item {
     String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
     List<String> itemIdList = new ArrayList<>();                     // [Slot1, Slot2, ...] = Keys
     Map<String, String[]> itemInfo = new HashMap<>();                // <slot, [0-Slot, 1-Item, 2-Price,3-Type]>
-    Map<String, Integer> itemQuantityMap = new HashMap<>();          // [Key: Slot, Value: Quantity]
-    Map<String, Integer> itemSalesCountMap = new HashMap<>();        // [Key: Slot, Value: Purchase Count]
-    Scanner sc = null;
+    Map<String, Integer> itemQuantity = new HashMap<>();             // [Key: Slot, Value: Quantity]
+    Map<String, Integer> itemSalesCount = new HashMap<>();           // [Key: Slot, Value: Purchase Count]
+    Scanner scanner = null;
 
-    public void itemInfo() throws FileNotFoundException {
+    public void setItemInfo() throws FileNotFoundException {
         int quantity = 5;
-        sc = new Scanner(new File(csvLocation));
-        while(sc.hasNextLine()) {
-            String line = sc.nextLine();
-            String[] lineArray = line.split("\\|");         // [A1, Potato Crisps, 3.05, Chip]
-            itemInfo.put(lineArray[0], lineArray);          // <A1, [A1, Potato Crisps, 3.05, Chip]>
-            itemIdList.add(lineArray[0]);
-            itemQuantityMap.put(lineArray[0], quantity);
-            itemSalesCountMap.put(lineArray[0], salesCount);
+        scanner = new Scanner(new File(csvLocation));
+        while(scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] lineArray = line.split("\\|");            // [A1, Potato Crisps, 3.05, Chip]
+            itemInfo.put(lineArray[0], lineArray);                   // <A1, [A1, Potato Crisps, 3.05, Chip]>
+            itemIdList.add(lineArray[0]);                            // [A1, A2...]
+            itemQuantity.put(lineArray[0], quantity);                // <A1, 5>
+            itemSalesCount.put(lineArray[0], salesCount);            // <A1, 0>
         }
     }
 
     private void checkItemSetup() throws FileNotFoundException {
         if (itemInfo.isEmpty() || itemInfo.equals(null)) {
-            itemInfo();
+            setItemInfo();
         }
     }
 
@@ -42,7 +42,7 @@ public class Item {
                 String item = itemInfo.get(slot)[1];         // Potato Crisps
                 String price = itemInfo.get(slot)[2];        // 3.05
                 String type = itemInfo.get(slot)[3];         // Chip
-                int qty = itemQuantityMap.get(slot);         // 5
+                int qty = itemQuantity.get(slot);            // 5
                 
                 System.out.print(
                           slot  + " | "

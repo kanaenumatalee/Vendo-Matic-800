@@ -69,7 +69,7 @@ public class Purchase extends Menu {
             if (dollar == 1 || dollar == 2 || dollar == 5 || dollar == 10) {
                 addToBalance(dollar);
                 System.out.println("Current money provided: $" + df.format(getBalance()));
-                Log.log("FEED MONEY $" + df.format(dollar) + " $" + df.format(getBalance()));
+                Log.log("FEED MONEY: $" + df.format(dollar) + " $" + df.format(getBalance()));
             } else {
                 System.out.println("Please insert $1, $2, $5, or $10 only.");
             }
@@ -89,7 +89,7 @@ public class Purchase extends Menu {
     }
 
     public void reduceQuantity(String slot) {
-        item.itemQuantityMap.put(slot, item.itemQuantityMap.get(slot)-1);
+        item.itemQuantity.put(slot, item.itemQuantity.get(slot)-1);
     }
 
     public void selectItem() throws FileNotFoundException {
@@ -97,12 +97,12 @@ public class Purchase extends Menu {
         System.out.print("Please select an item: ");
         String orderInput = in.nextLine();
         String order = orderInput.toUpperCase();
-        boolean hasOrder = item.itemQuantityMap.containsKey(order);
+        boolean hasOrder = item.itemQuantity.containsKey(order);
         String[] itemIndex = item.itemInfo.get(order);              // 1-Item, 2-Price, 3-Type
 
         if (!hasOrder) {                                            // product does not exist
             System.out.println("Sorry, the item does not exist. Please enter a valid slot location.");
-        } else if (item.itemQuantityMap.get(order) <= 0) {          // product qty == 0
+        } else if (item.itemQuantity.get(order) <= 0) {          // product qty == 0
             System.out.println("Sorry, the item is SOLD OUT.");
         } else if (!haveEnoughBalance(itemIndex[2])) {
             System.out.println("You current balance $" + df.format(getBalance())
@@ -115,8 +115,9 @@ public class Purchase extends Menu {
             getTypeSound(itemIndex[3]);
             reduceBalance(Double.parseDouble(itemIndex[2]));
             System.out.println("Money remaining: $" + df.format(getBalance()));
-            item.itemSalesCountMap.put(order, item.itemSalesCountMap.get(order)+1);
+            item.itemSalesCount.put(order, item.itemSalesCount.get(order)+1);
             Log.log(item.itemInfo.get(order)[1]
+                    + " " + item.itemInfo.get(order)[0]
                     + " $" +  item.itemInfo.get(order)[2]
                     + " $" +  df.format(getBalance()));
         }
@@ -125,9 +126,9 @@ public class Purchase extends Menu {
     public double returnTotalSales() {
         double totalSales = 0;
         for(String slot : item.itemIdList) {
-            Integer qty = item.itemSalesCountMap.get(slot);
+            Integer qty = item.itemSalesCount.get(slot);  // sales count
             double price = Double.parseDouble(item.itemInfo.get(slot)[2]);
-            totalSales += qty + price;
+            totalSales += qty * price;
         }
         return totalSales;
     }
@@ -161,6 +162,8 @@ public class Purchase extends Menu {
                     + "\nDime: "    + dime
                     + "\nNickle: "  + nickle
                     + "\nRemaining money: $" + df.format(newBalance));
+
+        Log.log("GIVE CHANGE: $" + df.format(balance) + " $" + df.format(newBalance));
     }
 }
 
