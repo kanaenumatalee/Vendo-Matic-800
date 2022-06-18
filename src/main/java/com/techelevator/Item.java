@@ -18,8 +18,8 @@ public class Item {
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] lineArray = line.split("\\|");            // [A1, Potato Crisps, 3.05, Chip]
-            itemInfo.put(lineArray[0], lineArray);                   // <A1, [A1, Potato Crisps, 3.05, Chip]>
             itemIdList.add(lineArray[0]);                            // [A1, A2...]
+            itemInfo.put(lineArray[0], lineArray);                   // <A1, [A1, Potato Crisps, 3.05, Chip]>
             itemQuantity.put(lineArray[0], quantity);                // <A1, 5>
             itemSalesCount.put(lineArray[0], salesCount);            // <A1, 0>
         }

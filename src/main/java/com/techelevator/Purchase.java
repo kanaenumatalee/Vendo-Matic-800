@@ -19,6 +19,7 @@ public class Purchase extends Menu {
     Scanner in = new Scanner(System.in);
     public static DecimalFormat df = new DecimalFormat("#,##0.00");
 
+    public Purchase(){};
     public Purchase(Item item) {
         this.item = item;
     }
@@ -29,7 +30,10 @@ public class Purchase extends Menu {
         while (toPurchase) {
             String choice = (String) getChoiceFromOptions(PURCHASE_OPTION);
             if (choice.equals(PURCHASE_OPTION_FEED_MONEY)) {
-                feedMoney();
+                System.out.print("Please insert $1, $2, $5, or $10: ");
+                String userChoice = in.nextLine();
+                feedMoney(userChoice);
+
             } else if (choice.equals(PURCHASE_OPTION_SELECT_PRODUCT)) {
                 selectItem();
             } else if (choice.equals(PURCHASE_OPTION_FINISH_TRANSACTION)) {
@@ -54,15 +58,13 @@ public class Purchase extends Menu {
     }
 
     public boolean haveEnoughBalance(String item) {
-        if(getBalance() <= Double.parseDouble(item)) {
+        if(getBalance() < Double.parseDouble(item)) {
             return false;
         }
         return true;
     }
 
-    public void feedMoney() {
-        System.out.print("Please insert $1, $2, $5, or $10: ");
-        String userChoice = in.nextLine();
+    public void feedMoney(String userChoice) {
         int dollar = 0;
         try {
             dollar = Integer.parseInt(userChoice);
@@ -78,7 +80,7 @@ public class Purchase extends Menu {
         }
     }
 
-    private void getTypeSound(String Type) {
+    public void getTypeSound(String Type) {
         switch (Type) {
             case "Chip": System.out.println("Dispensing...\nCrunch Crunch, Yum!"); break;
             case "Candy": System.out.println("Dispensing...\nMunch Munch, Yum!"); break;
