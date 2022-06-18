@@ -26,7 +26,7 @@ public class SalesReport {
 
                 writer.println(name + "|" + sale);
             }
-            writer.println("TOTAL SALES: $" + purchase.df.format(purchase.returnTotalSales()));
+            writer.println("TOTAL SALES: $" + purchase.df.format(purchase.returnTotalSales(item)));
 
             writer.flush();
         } catch (Exception e) {

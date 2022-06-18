@@ -35,7 +35,10 @@ public class Purchase extends Menu {
                 feedMoney(userChoice);
 
             } else if (choice.equals(PURCHASE_OPTION_SELECT_PRODUCT)) {
-                selectItem();
+                item.displayItems();
+                System.out.print("Please select an item: ");
+                String orderInput = in.nextLine();
+                selectItem(item, orderInput);
             } else if (choice.equals(PURCHASE_OPTION_FINISH_TRANSACTION)) {
                 returnChange(getBalance());
                 toPurchase = false;
@@ -90,14 +93,11 @@ public class Purchase extends Menu {
         }
     }
 
-    public void reduceQuantity(String slot) {
+    public void reduceQuantity(Item item, String slot) {
         item.itemQuantity.put(slot, item.itemQuantity.get(slot)-1);
     }
 
-    public void selectItem() throws FileNotFoundException {
-        item.displayItems();
-        System.out.print("Please select an item: ");
-        String orderInput = in.nextLine();
+    public void selectItem(Item item, String orderInput) throws FileNotFoundException {
         String order = orderInput.toUpperCase();
         boolean hasOrder = item.itemQuantity.containsKey(order);
         String[] itemIndex = item.itemInfo.get(order);              // 1-Item, 2-Price, 3-Type
@@ -107,13 +107,13 @@ public class Purchase extends Menu {
         } else if (item.itemQuantity.get(order) <= 0) {          // product qty == 0
             System.out.println("Sorry, the item is SOLD OUT.");
         } else if (!haveEnoughBalance(itemIndex[2])) {
-            System.out.println("You current balance $" + df.format(getBalance())
+            System.out.println("Your current balance $" + df.format(getBalance())
                     + " is not enough to buy this item. "
                     + "Please add more money or select another item.");
         } else if (hasOrder) {                                      // finds product
             System.out.println("Thank you for ordering " + itemIndex[1]
                     + "! That will be $" + itemIndex[2] + "!");
-            reduceQuantity(order);
+            reduceQuantity(item, order);
             getTypeSound(itemIndex[3]);
             reduceBalance(Double.parseDouble(itemIndex[2]));
             System.out.println("Money remaining: $" + df.format(getBalance()));
@@ -125,7 +125,7 @@ public class Purchase extends Menu {
         }
     }
 
-    public double returnTotalSales() {
+    public double returnTotalSales(Item item) {
         double totalSales = 0;
         for(String slot : item.itemIdList) {
             Integer qty = item.itemSalesCount.get(slot);  // sales count
