@@ -14,7 +14,7 @@ public class SalesReport {
 
     public void getSalesReport() {
         try {
-            String path = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/src/main/java/com/techelevator/SalesReport/";
+            String path = "capstone-1/src/main/java/com/techelevator/SalesReport/";
             DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy hh-mm-ss a");
             LocalDateTime current = LocalDateTime.now();
             File file = new File(path + current.format(DTFormat) + " Sales.txt");
