@@ -5,23 +5,22 @@ import java.util.*;
 
 public class Item {
     public int salesCount = 0;
-    String csvLocation = "/Users/kanya/Desktop/Cap Stone Project/capstone-1/vendingmachine.csv";
-    List<String> itemIdList = new ArrayList<>();                     // [Slot1, Slot2, ...] = Keys
-    Map<String, String[]> itemInfo = new HashMap<>();                // <slot, [0-Slot, 1-Item, 2-Price,3-Type]>
-    Map<String, Integer> itemQuantity = new HashMap<>();             // [Key: Slot, Value: Quantity]
-    Map<String, Integer> itemSalesCount = new HashMap<>();           // [Key: Slot, Value: Purchase Count]
+    public String csvLocation = "capstone-1/vendingmachine.csv";
+    public List<String> itemIdList = new ArrayList<>();                     // [Slot1, Slot2, ...] = Keys
+    public Map<String, String[]> itemInfo = new HashMap<>();                // {Key: slot, Value: [0-Slot, 1-Item, 2-Price,3-Type]}
+    public Map<String, Integer> itemQuantity = new HashMap<>();             // {Key: Slot, Value: Quantity}
+    public Map<String, Integer> itemSalesCount = new HashMap<>();           // {Key: Slot, Value: Purchase Count}
     Scanner scanner = null;
 
     public void setItemInfo() throws FileNotFoundException {
-        int quantity = 5;
         scanner = new Scanner(new File(csvLocation));
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] lineArray = line.split("\\|");            // [A1, Potato Crisps, 3.05, Chip]
-            itemIdList.add(lineArray[0]);                            // [A1, A2...]
-            itemInfo.put(lineArray[0], lineArray);                   // <A1, [A1, Potato Crisps, 3.05, Chip]>
-            itemQuantity.put(lineArray[0], quantity);                // <A1, 5>
-            itemSalesCount.put(lineArray[0], salesCount);            // <A1, 0>
+            String[] lineArray = line.split("\\|");                   // [A1, Potato Crisps, 3.05, Chip]
+            itemIdList.add(lineArray[0]);                                   // [A1, A2...]
+            itemInfo.put(lineArray[0], lineArray);                          // {A1=[A1, Potato Crisps, 3.05, Chip]}
+            itemQuantity.put(lineArray[0], 5);                              // {A1=5}
+            itemSalesCount.put(lineArray[0], salesCount);                   // {A1=0}
         }
     }
 

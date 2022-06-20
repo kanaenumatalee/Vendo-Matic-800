@@ -6,22 +6,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.*;
 
 
 public class PurchaseTest {
     Purchase purchase;
     Item item;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
 
     @Before
     public void setup() throws FileNotFoundException {
         System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
         purchase = new Purchase();
         item = new Item();
         item.setItemInfo();
@@ -30,7 +26,6 @@ public class PurchaseTest {
     @After
     public void restore() {
         System.setOut(originalOut);
-        System.setErr(originalErr);
         System.setIn(originalIn);
     }
 

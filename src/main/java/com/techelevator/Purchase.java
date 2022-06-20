@@ -97,7 +97,7 @@ public class Purchase extends Menu {
         item.itemQuantity.put(slot, item.itemQuantity.get(slot)-1);
     }
 
-    public void selectItem(Item item, String orderInput) throws FileNotFoundException {
+    public void selectItem(Item item, String orderInput) {
         String order = orderInput.toUpperCase();
         boolean hasOrder = item.itemQuantity.containsKey(order);
         String[] itemIndex = item.itemInfo.get(order);              // 1-Item, 2-Price, 3-Type
