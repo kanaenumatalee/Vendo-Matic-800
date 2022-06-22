@@ -13,9 +13,9 @@ public class Log {
     public static void log(String message) {
         try {
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-            String dateString = dateFormat.format(new Date()).toString();
-            String path = "capstone-1/src/main/java/com/techelevator/Log/";
-            File file = new File(path + "Log.txt");
+            String dateString = dateFormat.format(new Date());
+            String path = "src/main/java/com/techelevator/Log/Log.txt";
+            File file = new File(path);
             if (writer == null) {
                 writer = new PrintWriter(new FileOutputStream(file, true));
             }

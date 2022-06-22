@@ -56,8 +56,8 @@ public class Purchase extends Menu {
 
     public void addToBalance(double dollar) { this.balance += dollar; }
 
-    public void reduceBalance(double item) {
-        this.balance -= item;
+    public void reduceBalance(double value) {
+        this.balance -= value;
     }
 
     public boolean haveEnoughBalance(String item) {
@@ -85,10 +85,10 @@ public class Purchase extends Menu {
 
     public void getTypeSound(String Type) {
         switch (Type) {
-            case "Chip": System.out.println("Dispensing...\nCrunch Crunch, Yum!"); break;
-            case "Candy": System.out.println("Dispensing...\nMunch Munch, Yum!"); break;
-            case "Drink": System.out.println("Dispensing...\nGlug Glug, Yum!"); break;
-            case "Gum": System.out.println("Dispensing...\nChew Chew, Yum!"); break;
+            case "Chip": System.out.println("Dispensing..."+System.lineSeparator()+"Crunch Crunch, Yum!"); break;
+            case "Candy": System.out.println("Dispensing..."+System.lineSeparator()+"Munch Munch, Yum!"); break;
+            case "Drink": System.out.println("Dispensing..."+System.lineSeparator()+"Glug Glug, Yum!"); break;
+            case "Gum": System.out.println("Dispensing..."+System.lineSeparator()+"Chew Chew, Yum!"); break;
             default: System.out.println(""); break;
         }
     }
@@ -142,28 +142,25 @@ public class Purchase extends Menu {
         int nickle = 0;
 
         while(newBalance >= 0.25) {
-            reduceBalance(0.25);
             newBalance -= 0.25;
             quarter++;
         }
 
         while(newBalance >= 0.1) {
-            reduceBalance(0.1);
             newBalance -= 0.1;
             dime++;
         }
 
         while(newBalance >= 0.05) {
-            reduceBalance(0.05);
             newBalance -= 0.05;
             nickle++;
         }
 
         System.out.println("Dispensing change..."
-                    + "\nQuarter: " + quarter
-                    + "\nDime: "    + dime
-                    + "\nNickle: "  + nickle
-                    + "\nRemaining money: $" + df.format(newBalance));
+                    + System.lineSeparator()+"Quarter: " + quarter
+                    + System.lineSeparator()+"Dime: "    + dime
+                    + System.lineSeparator()+"Nickle: "  + nickle
+                    + System.lineSeparator()+"Remaining money: $" + df.format(newBalance));
 
         Log.log("GIVE CHANGE: $" + df.format(balance) + " $" + df.format(newBalance));
     }

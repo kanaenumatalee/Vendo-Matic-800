@@ -34,11 +34,11 @@ public class PurchaseTest {
         purchase.setBalance(50);
 
         Assert.assertEquals("haveEnoughBalance(\"50\") should return true: "
-                            + "\ngetBalance(): "  + purchase.getBalance(),
+                            + System.lineSeparator()+ "getBalance(): "  + purchase.getBalance(),
                             true, purchase.haveEnoughBalance("50"));
 
         Assert.assertEquals("haveEnoughBalance(\"60\") should return false: "
-                            + "\ngetBalance(): "  + purchase.getBalance(),
+                            + System.lineSeparator()+"getBalance(): "  + purchase.getBalance(),
                 false, purchase.haveEnoughBalance("60"));
 
     }
@@ -54,7 +54,7 @@ public class PurchaseTest {
 
    // if feedMoney() takes in 0 as value
         input = "0";
-        String expected = "Please insert $1, $2, $5, or $10 only.\n";
+        String expected = "Please insert $1, $2, $5, or $10 only."+System.lineSeparator();
         purchase.feedMoney(input);
         Assert.assertEquals("feedMoney(0) should return " + expected,
                 expected, outContent.toString());
@@ -62,7 +62,7 @@ public class PurchaseTest {
 
     // if feedMoney() takes in "" return error
         input = "";
-        expected = " is not a valid integer.\n";
+        expected = " is not a valid integer."+System.lineSeparator();
         purchase.feedMoney(input);
         Assert.assertEquals("feedMoney(\"-23\") should return " + expected,
                             expected, outContent.toString());
@@ -70,7 +70,7 @@ public class PurchaseTest {
 
     // if feedMoney() takes in -number as value
         input = "-23";
-        expected = "Please insert $1, $2, $5, or $10 only.\n";
+        expected = "Please insert $1, $2, $5, or $10 only."+ System.lineSeparator();
         purchase.feedMoney(input);
         Assert.assertEquals("feedMoney(\"-23\") should return " + expected,
                             expected, outContent.toString());
@@ -78,7 +78,7 @@ public class PurchaseTest {
 
     // if feedMoney() takes in other values not listed as accepted
             input = "four";
-            expected = "four is not a valid integer.\n";
+            expected = "four is not a valid integer."+System.lineSeparator();
             purchase.feedMoney(input);
             Assert.assertEquals("feedMoney(four) should return " + expected,
                                 expected, outContent.toString());
@@ -90,7 +90,8 @@ public class PurchaseTest {
     public void getSound_should_return_sound_based_on_foodCategory() {
     //returning sound for Chip
         String input = "Chip";
-        String expected = "Dispensing...\nCrunch Crunch, Yum!\n";
+        String expected = "Dispensing..."+System.lineSeparator()+
+                            "Crunch Crunch, Yum!"+System.lineSeparator();
         purchase.getTypeSound(input);
         Assert.assertEquals("getTypeSound(\"Chip\") should return " + expected,
                 expected, outContent.toString());
@@ -98,7 +99,7 @@ public class PurchaseTest {
 
     //returning sound for Candy
         input = "Candy";
-        expected = "Dispensing...\nMunch Munch, Yum!\n";
+        expected = "Dispensing..."+System.lineSeparator()+"Munch Munch, Yum!"+System.lineSeparator();
         purchase.getTypeSound(input);
         Assert.assertEquals("getTypeSound(\"Candy\") should return " + expected,
                 expected, outContent.toString());
@@ -130,9 +131,9 @@ public class PurchaseTest {
     //purchasing A1 with enough balance
         String input = "A1";
         String expected = "Thank you for ordering Potato Crisps! That will be $3.05!"
-                        + "\nDispensing..."
-                        + "\nCrunch Crunch, Yum!"
-                        + "\nMoney remaining: $1.95\n";
+                        + System.lineSeparator()+"Dispensing..."
+                        + System.lineSeparator()+"Crunch Crunch, Yum!"
+                        + System.lineSeparator()+"Money remaining: $1.95"+System.lineSeparator();
 
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
@@ -142,7 +143,7 @@ public class PurchaseTest {
     //try to select item when balance is 0
         purchase.setBalance(0);
         input = "A1";
-        expected = "Your current balance $0.00 is not enough to buy this item. Please add more money or select another item.\n";
+        expected = "Your current balance $0.00 is not enough to buy this item. Please add more money or select another item."+System.lineSeparator();
 
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
@@ -154,7 +155,7 @@ public class PurchaseTest {
         item.itemQuantity.put("A1", 0);
         purchase.setBalance(5);
         input = "A1";
-        expected = "Sorry, the item is SOLD OUT.\n";
+        expected = "Sorry, the item is SOLD OUT."+System.lineSeparator();
 
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
@@ -172,10 +173,10 @@ public class PurchaseTest {
     @Test
     public void return_change() {
         String expected = "Dispensing change..."
-                + "\nQuarter: 40"
-                + "\nDime: 0"
-                + "\nNickle: 0"
-                + "\nRemaining money: $0.00\n";
+                + System.lineSeparator()+"Quarter: 40"
+                + System.lineSeparator()+"Dime: 0"
+                + System.lineSeparator()+"Nickle: 0"
+                + System.lineSeparator()+"Remaining money: $0.00"+System.lineSeparator();
 
         purchase.returnChange(10);
         Assert.assertEquals("It should return " + expected,

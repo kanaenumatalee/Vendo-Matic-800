@@ -14,9 +14,10 @@ public class SalesReport {
 
     public void getSalesReport() {
         try {
-            String path = "capstone-1/src/main/java/com/techelevator/SalesReport/";
+            String path = "src/main/java/com/techelevator/SalesReport/";
             DateTimeFormatter DTFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy hh-mm-ss a");
             LocalDateTime current = LocalDateTime.now();
+
             File file = new File(path + current.format(DTFormat) + " Sales.txt");
             PrintWriter writer = new PrintWriter(new FileOutputStream(file, true));
 

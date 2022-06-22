@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Item {
     public int salesCount = 0;
-    public String csvLocation = "capstone-1/vendingmachine.csv";
+    public String csvLocation = "C:\\Users\\ryanj\\Desktop\\meritamerica\\repos\\ryan-johnson-student-exercises\\capstone\\capstone-1\\vendingmachine.csv";
     public List<String> itemIdList = new ArrayList<>();                     // [Slot1, Slot2, ...] = Keys
     public Map<String, String[]> itemInfo = new HashMap<>();                // {Key: slot, Value: [0-Slot, 1-Item, 2-Price,3-Type]}
     public Map<String, Integer> itemQuantity = new HashMap<>();             // {Key: Slot, Value: Quantity}
@@ -42,7 +42,6 @@ public class Item {
                 String price = itemInfo.get(slot)[2];        // 3.05
                 String type = itemInfo.get(slot)[3];         // Chip
                 int qty = itemQuantity.get(slot);            // 5
-                
                 System.out.print(
                           slot  + " | "
                         + item  + " | $"
