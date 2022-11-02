@@ -1,7 +1,10 @@
 package com.techelevator;
 
+
 import com.techelevator.view.Menu;
+
 import java.io.FileNotFoundException;
+
 
 public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
@@ -9,10 +12,9 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
 	private static final String MAIN_MENU_OPTION_SALES_REPORT = "";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS,
-														MAIN_MENU_OPTION_PURCHASE,
-														MAIN_MENU_OPTION_EXIT,
-														MAIN_MENU_OPTION_SALES_REPORT};
-
+							    MAIN_MENU_OPTION_PURCHASE,
+							    MAIN_MENU_OPTION_EXIT,
+							    MAIN_MENU_OPTION_SALES_REPORT};
 	private Menu menu;
 	public VendingMachineCLI(Menu menu) {this.menu = menu;}
 	Item item = new Item();
