@@ -125,7 +125,7 @@ public class PurchaseTest {
     @Test
     public void return_message_when_selecting_item() throws FileNotFoundException {
         purchase.setBalance(5);
-        //purchasing A1 with enough balance
+    //purchasing A1 with enough balance
         String input = "A1";
         String expected = "Thank you for ordering Potato Crisps! That will be $3.05!"
                         + System.lineSeparator()+"Dispensing..."
@@ -135,7 +135,7 @@ public class PurchaseTest {
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
         outContent.reset();
-        //try to select item when balance is 0
+    //try to select item when balance is 0
         purchase.setBalance(0);
         input = "A1";
         expected = "Your current balance $0.00 is not enough to buy this item. Please add more money or select another item."+System.lineSeparator();
@@ -143,7 +143,7 @@ public class PurchaseTest {
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
         outContent.reset();
-        //try to select SOLD OUT item
+    //try to select SOLD OUT item
         Item item = new Item();
         item.itemQuantity.put("A1", 0);
         purchase.setBalance(5);
