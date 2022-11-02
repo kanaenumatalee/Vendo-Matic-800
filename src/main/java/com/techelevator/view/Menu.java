@@ -1,16 +1,19 @@
 package com.techelevator.view;
 
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+
 import java.util.Scanner;
 
-public class Menu {
 
+public class Menu {
 	public static PrintWriter out;
 	public static Scanner in;
 
 	public Menu(){}
+	
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
@@ -51,7 +54,6 @@ public class Menu {
 				out.println(optionNum + ") " + options[i]);
 			}
 		}
-
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}
