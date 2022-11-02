@@ -1,9 +1,14 @@
 package com.techelevator;
 
+
 import com.techelevator.view.Menu;
+
 import java.io.*;
+
 import java.text.DecimalFormat;
+
 import java.util.Scanner;
+
 
 public class Purchase extends Menu {
     private static final String PURCHASE_OPTION_FEED_MONEY = "Feed Money";
@@ -15,10 +20,9 @@ public class Purchase extends Menu {
 
     private double balance;
     private Item item;
-
     Scanner in = new Scanner(System.in);
     public static DecimalFormat df = new DecimalFormat("#,##0.00");
-
+    
     public Purchase(){};
     public Purchase(Item item) {
         this.item = item;
@@ -26,14 +30,12 @@ public class Purchase extends Menu {
 
     public void run() throws FileNotFoundException {
         boolean toPurchase = true;
-
         while (toPurchase) {
             String choice = (String) getChoiceFromOptions(PURCHASE_OPTION);
             if (choice.equals(PURCHASE_OPTION_FEED_MONEY)) {
                 System.out.print("Please insert $1, $2, $5, or $10: ");
                 String userChoice = in.nextLine();
                 feedMoney(userChoice);
-
             } else if (choice.equals(PURCHASE_OPTION_SELECT_PRODUCT)) {
                 item.displayItems();
                 System.out.print("Please select an item: ");
@@ -101,7 +103,6 @@ public class Purchase extends Menu {
         String order = orderInput.toUpperCase();
         boolean hasOrder = item.itemQuantity.containsKey(order);
         String[] itemIndex = item.itemInfo.get(order);              // 1-Item, 2-Price, 3-Type
-
         if (!hasOrder) {                                            // product does not exist
             System.out.println("Sorry, the item does not exist. Please enter a valid slot location.");
         } else if (item.itemQuantity.get(order) <= 0) {          // product qty == 0
@@ -140,28 +141,23 @@ public class Purchase extends Menu {
         int quarter = 0;
         int dime = 0;
         int nickle = 0;
-
         while(newBalance >= 0.25) {
             newBalance -= 0.25;
             quarter++;
         }
-
         while(newBalance >= 0.1) {
             newBalance -= 0.1;
             dime++;
         }
-
         while(newBalance >= 0.05) {
             newBalance -= 0.05;
             nickle++;
         }
-
         System.out.println("Dispensing change..."
                     + System.lineSeparator()+"Quarter: " + quarter
                     + System.lineSeparator()+"Dime: "    + dime
                     + System.lineSeparator()+"Nickle: "  + nickle
                     + System.lineSeparator()+"Remaining money: $" + df.format(newBalance));
-
         Log.log("GIVE CHANGE: $" + df.format(balance) + " $" + df.format(newBalance));
     }
 }
