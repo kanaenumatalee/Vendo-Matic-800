@@ -1,5 +1,6 @@
 package com.techelevator;
 
+
 import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
@@ -84,8 +85,6 @@ public class PurchaseTest {
                                 expected, outContent.toString());
     }
 
-
-
     @Test
     public void getSound_should_return_sound_based_on_foodCategory() {
     //returning sound for Chip
@@ -105,7 +104,6 @@ public class PurchaseTest {
                 expected, outContent.toString());
     }
 
-
     @Test
     public void reduce_quantity_of_itemQuantity_Map_value() {
         Item item = new Item();
@@ -123,40 +121,34 @@ public class PurchaseTest {
         Assert.assertEquals("purchase.reduceQuantity(item, \"b\") should return " + expected,
                             expected, item.itemQuantity.get("b"));
     }
+    
     @Test
     public void return_message_when_selecting_item() throws FileNotFoundException {
-
         purchase.setBalance(5);
-
-    //purchasing A1 with enough balance
+        //purchasing A1 with enough balance
         String input = "A1";
         String expected = "Thank you for ordering Potato Crisps! That will be $3.05!"
                         + System.lineSeparator()+"Dispensing..."
                         + System.lineSeparator()+"Crunch Crunch, Yum!"
                         + System.lineSeparator()+"Money remaining: $1.95"+System.lineSeparator();
-
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
         outContent.reset();
-
-    //try to select item when balance is 0
+        //try to select item when balance is 0
         purchase.setBalance(0);
         input = "A1";
         expected = "Your current balance $0.00 is not enough to buy this item. Please add more money or select another item."+System.lineSeparator();
-
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
         outContent.reset();
-
-    //try to select SOLD OUT item
+        //try to select SOLD OUT item
         Item item = new Item();
         item.itemQuantity.put("A1", 0);
         purchase.setBalance(5);
         input = "A1";
         expected = "Sorry, the item is SOLD OUT."+System.lineSeparator();
-
         purchase.selectItem(item, input);
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
@@ -177,7 +169,6 @@ public class PurchaseTest {
                 + System.lineSeparator()+"Dime: 0"
                 + System.lineSeparator()+"Nickle: 0"
                 + System.lineSeparator()+"Remaining money: $0.00"+System.lineSeparator();
-
         purchase.returnChange(10);
         Assert.assertEquals("It should return " + expected,
                 expected, outContent.toString());
